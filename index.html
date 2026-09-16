@@ -7,7 +7,7 @@
   <meta name="description" content="Gestión de fútbol 6 de los jueves">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="assets/icon.svg">
-  <link rel="stylesheet" href="styles.css?v=20260916d">
+  <link rel="stylesheet" href="styles.css?v=20260916e">
   <title>Fútbol del Jueves</title>
 </head>
 <body>
@@ -32,10 +32,12 @@
   <div id="manualSwapModal" class="modal hidden"><div class="modal-box"><button class="modal-close" data-close="manualSwapModal">×</button><h2>Cambiar jugadores</h2><p>Elegí un jugador de cada equipo para intercambiarlos.</p><div class="form-grid"><label>Equipo A<select id="swapA"></select></label><label>Equipo B<select id="swapB"></select></label></div><button id="swapBtn" class="btn primary full">Intercambiar</button></div></div>
   <div id="adminDrawer" class="drawer hidden"><div class="drawer-box"><div class="section-head"><div><h2>Administración</h2><p id="adminUserLabel">—</p></div><button class="modal-close" data-close="adminDrawer">×</button></div><div class="admin-menu"><button id="logoutBtn" class="btn secondary full">Cerrar sesión</button><button id="backupBtn" class="btn secondary full">📤 Exportar backup JSON</button><label class="btn secondary full file-btn">📥 Importar backup JSON<input id="importInput" type="file" accept="application/json"></label></div><div class="small-note">Los datos se guardan online en Supabase. El backup es una copia adicional.</div><hr style="border:0;border-top:1px solid #e5e7eb;margin:20px 0"><div class="section-head"><div><h2>Resultado pendiente</h2><p>Si ya pasó el jueves, elegí el último partido.</p></div></div><select id="historyMatchSelect" style="width:100%;padding:11px;border:1px solid #dbe1e8;border-radius:9px"></select><div class="score-form" style="margin-top:10px"><input id="historyScoreA" type="number" min="0" placeholder="A"><span>—</span><input id="historyScoreB" type="number" min="0" placeholder="B"><button id="historySaveBtn" class="btn primary">Guardar</button></div></div></div>
   <div id="loading" class="loading hidden"><div class="spinner"></div></div>
+  <!-- CDN principal + respaldo. Si uno no responde, el navegador continúa con el siguiente. -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.0/dist/umd/supabase.min.js"></script>
-  <script src="config.js?v=20260916d"></script>
-  <script src="app.js?v=20260916d"></script>
-  <script src="fix.js?v=20260916d"></script>
-  <script src="stats-edit.js?v=20260916d"></script>
-  <script src="boot-fix.js?v=20260916d"></script>
+  <script src="https://unpkg.com/@supabase/supabase-js@2.117.0/dist/umd/supabase.min.js"></script>
+  <script src="config.js?v=20260916e"></script>
+  <script src="app.js?v=20260916e"></script>
+  <script src="fix.js?v=20260916e"></script>
+  <script src="stats-edit.js?v=20260916e"></script>
+  <script src="boot-fix.js?v=20260916e"></script>
 </body></html>
