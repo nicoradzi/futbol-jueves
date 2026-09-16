@@ -1,6 +1,5 @@
 /* FÚTBOL DEL JUEVES · administración estable */
 (function(){
-  // Exponer el estado interno para que la UI de administración quede sincronizada.
   window.__FDJ_STATE = state;
   window.__FDJ_SB = sb;
 
@@ -19,7 +18,16 @@
     }
   }
 
-  // La sesión puede aparecer unos instantes después de que cargue la página.
+  // Delegación de eventos: funciona aunque renderPlayers reconstruya las tarjetas.
+  document.addEventListener('click', function(e){
+    const edit = e.target.closest('.edit-player');
+    if(edit){
+      e.preventDefault();
+      e.stopPropagation();
+      if(state.user && typeof openPlayer === 'function') openPlayer(edit.dataset.id);
+    }
+  }, true);
+
   sync();
   let tries=0;
   const timer=setInterval(()=>{
@@ -27,6 +35,5 @@
     if(++tries>=30)clearInterval(timer);
   },250);
 
-  // Después de un login exitoso, forzar inmediatamente la actualización visual.
   document.addEventListener('submit',()=>setTimeout(sync,150),true);
 })();
