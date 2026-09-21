@@ -1,6 +1,6 @@
 /* FÚTBOL DEL JUEVES · frontend robusto */
 // El backend actual es Firebase, expuesto mediante firebase-shim.js con la misma interfaz que usaba la app.
-const sb=window.Firebase?Firebase.createClient():null;
+const sb=window.supabase?supabase.createClient():null;
 const POS={ARQ:"ARQ",DEF:"DEF",MED:"MED",DEL:"DEL"};
 const state={user:null,players:[],matches:[],attendance:new Map(),teams:{A:[],B:[]},stats:[],currentMatch:null,generated:false};
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
