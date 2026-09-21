@@ -1,6 +1,6 @@
 /* FÚTBOL DEL JUEVES · frontend robusto */
 // El backend actual es Firebase, expuesto mediante firebase-shim.js con la misma interfaz que usaba la app.
-const sb=window.supabase?supabase.createClient():null;
+const sb=window.Firebase?Firebase.createClient():null;
 const POS={ARQ:"ARQ",DEF:"DEF",MED:"MED",DEL:"DEL"};
 const state={user:null,players:[],matches:[],attendance:new Map(),teams:{A:[],B:[]},stats:[],currentMatch:null,generated:false};
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
@@ -48,7 +48,7 @@ function renderPlayers(){$("#playersGrid").innerHTML=state.players.map(p=>`<div 
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 async function removePlayer(id){if(!sb||!state.user){notify("Necesitás iniciar sesión.",true);return}const p=playerById(id);if(!p)return;if(!confirm("¿Eliminar a "+p.name+" de la lista? Sus partidos históricos se conservan."))return;try{const r=await sb.from("players").update({active:false}).eq("id",id);if(r.error)throw r.error;await loadAll();notify(p.name+" eliminado de la lista.")}catch(e){notify("No se pudo eliminar: "+(e.message||e),true)}}
 document.addEventListener("click",e=>{const del=e.target.closest(".delete-player");if(del){e.preventDefault();removePlayer(del.dataset.id)}});
-async function login(){const email=$("#email").value,password=$("#password").value;$("#loginError").textContent="";if(!sb){$("#loginError").textContent="La conexión con Supabase no está disponible.";return}const{data,error}=await timeout(sb.auth.signInWithPassword({email,password}),8000);if(error){$("#loginError").textContent=error.message;return}state.user=data.user;$("#loginModal").classList.add("hidden");adminUI();await loadAll()}
+async function login(){const email=$("#email").value,password=$("#password").value;$("#loginError").textContent="";if(!sb){$("#loginError").textContent="La conexión con Firebase no está disponible.";return}const{data,error}=await timeout(sb.auth.signInWithPassword({email,password}),8000);if(error){$("#loginError").textContent=error.message;return}state.user=data.user;$("#loginModal").classList.add("hidden");adminUI();await loadAll()}
 async function logout(){if(sb)await timeout(sb.auth.signOut(),5000).catch(()=>{});state.user=null;$("#adminDrawer").classList.add("hidden");adminUI();await loadAll()}
 async function savePlayer(e){e.preventDefault();if(!sb||!state.user){notify("Necesitás iniciar sesión.",true);return}const id=$("#playerId").value,payload={name:$("#playerName").value.trim(),skill:+$("#playerSkill").value,stamina:+$("#playerStamina").value,position_1:$("#playerPos1").value,position_2:$("#playerPos2").value||null,active:true};loading(true);try{const q=id?sb.from("players").update(payload).eq("id",id):sb.from("players").insert(payload);const{error}=await timeout(q,6000);if(error)throw error;$("#playerModal").classList.add("hidden");await loadAll();notify("Jugador guardado.")}catch(err){notify(err.message,true)}finally{loading(false)}}
 function openPlayer(id=null){$("#playerForm").reset();$("#playerId").value=id||"";$("#playerPos1").innerHTML=Object.values(POS).map(x=>`<option>${x}</option>`).join("");$("#playerPos2").innerHTML=`<option value="">Sin segunda posición</option>`+Object.values(POS).map(x=>`<option>${x}</option>`).join("");if(id){const p=playerById(id);if(!p)return;$("#playerModalTitle").textContent="Editar jugador";$("#playerName").value=p.name;$("#playerSkill").value=p.skill;$("#playerStamina").value=p.stamina;$("#playerPos1").value=p.position_1;$("#playerPos2").value=p.position_2||""}else $("#playerModalTitle").textContent="Nuevo jugador";$("#playerModal").classList.remove("hidden")}
@@ -64,4 +64,4 @@ if(sb){
   const start=()=>loadAll();
   try{sb.auth.getSession().then(({data})=>{state.user=data?.session?.user||null;adminUI();start()}).catch(e=>{console.warn("getSession falló",e);adminUI();start()})}catch(e){adminUI();start()}
   sb.auth.onAuthStateChange((_event,session)=>{state.user=session?.user||null;adminUI();renderAll()});
-}else{notify("No se pudo cargar el cliente de Supabase. Revisá la conexión.",true);loadAll()}
+}else{notify("No se pudo cargar el cliente de Firebase. Revisá la conexión.",true);loadAll()}
