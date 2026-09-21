@@ -4,6 +4,6 @@ window.FIREBASE_CONFIG={
   projectId:"el-no-fulbito",
   storageBucket:"el-no-fulbito.firebasestorage.app",
   messagingSenderId:"950220837790",
-  appId:"1:950220837790:web:e504d961952c68af013c8f",
-  measurementId:"G-H7K6YK124"
+  appId:"1:950220837790:web:7e1738d2168ebc78013c8f",
+  measurementId:"G-30NQ8FB332"
 };
