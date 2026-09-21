@@ -64,5 +64,5 @@ $("#adminBtn").onclick=()=>state.user?$("#adminDrawer").classList.remove("hidden
 if(sb){
   const start=()=>loadAll();
   try{sb.auth.getSession().then(({data})=>{state.user=data?.session?.user||null;adminUI();start()}).catch(e=>{console.warn("getSession falló",e);adminUI();start()})}catch(e){adminUI();start()}
-  sb.auth.onAuthStateChange((_event,session)=>{state.user=session?.user||null;adminUI()});
+  sb.auth.onAuthStateChange((_event,session)=>{state.user=session?.user||null;adminUI();renderAll()});
 }else{notify("No se pudo cargar el cliente de Supabase. Revisá la conexión.",true);loadAll()}
