@@ -1,5 +1,5 @@
 window.FIREBASE_CONFIG={
-  apiKey:"AIzaSyA0Ewmg1-4XCbD_Ih8bR2QAubuZITipDT0",
+  apiKey:"AIzaSyA0Ewmg1-4XCBd_Ih8bR2QAubuZITipDT0",
   authDomain:"el-no-fulbito.firebaseapp.com",
   projectId:"el-no-fulbito",
   storageBucket:"el-no-fulbito.firebasestorage.app",
