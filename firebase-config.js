@@ -1,0 +1,9 @@
+window.FIREBASE_CONFIG={
+  apiKey:"AIzaSyA0Ewmg1-4XCbD_Ih8bR2QAubuZITipDT0",
+  authDomain:"el-no-fulbito.firebaseapp.com",
+  projectId:"el-no-fulbito",
+  storageBucket:"el-no-fulbito.firebasestorage.app",
+  messagingSenderId:"950220837790",
+  appId:"1:950220837790:web:e504d961952c68af013c8f",
+  measurementId:"G-H7K6YK124"
+};
