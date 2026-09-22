@@ -24,7 +24,7 @@ document.addEventListener("click",e=>{
   }
 },true);
 
-document.addEventListener("pointerdown",e=>{
+document.addEventListener("mousedown",e=>{
   const add=e.target.closest("#addPlayerBtn");
   if(add){e.preventDefault();e.stopPropagation();openPlayer();return}
   const edit=e.target.closest(".edit-player");
@@ -32,6 +32,7 @@ document.addEventListener("pointerdown",e=>{
   const del=e.target.closest(".delete-player");
   if(del){e.preventDefault();e.stopPropagation();removePlayer(String(del.dataset.id));return}
 },true);
+
 function adminUI(){const admin=!!state.user;$$('.admin-only').forEach(x=>x.classList.toggle('hidden',!admin));const l=$("#adminUserLabel");if(l)l.textContent=admin?state.user.email:"No autenticado"}
 function emptyStats(){return state.players.map(p=>({player_id:p.id,pj:0,pg:0,pe:0,pp:0,winrate:0,mental:0}))}
 function placeholderMatch(){return{id:null,match_date:nextThursday(),status:"OPEN",team_a_score:null,team_b_score:null}}
