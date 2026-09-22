@@ -8,7 +8,7 @@
     if((table==="attendance"||table==="match_players")&&row.match_id&&row.player_id)return String(row.match_id)+"__"+String(row.player_id);
     return null;
   };
-  const clean=o=>JSON.parse(JSON.stringify(o)),toObj=s=>({id:s.id,...s.data()});
+  const clean=o=>JSON.parse(JSON.stringify(o)),toObj=s=>({...s.data(),id:s.id});
   class Query{
     constructor(table){this.table=table;this.ref=db.collection(table);this.filters=[];this.orderBy=null;this.asc=true;this.method="GET";this.body=null;this.singleMode=null;this.wantData=false}
     select(){this.wantData=true;return this}
