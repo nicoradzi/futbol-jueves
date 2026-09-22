@@ -48,6 +48,19 @@ function renderPlayers(){$("#playersGrid").innerHTML=state.players.map(p=>`<div 
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 async function removePlayer(id){if(!sb||!state.user){notify("Necesitás iniciar sesión.",true);return}const p=playerById(id);if(!p)return;if(!confirm("¿Eliminar a "+p.name+" de la lista? Sus partidos históricos se conservan."))return;try{const r=await sb.from("players").update({active:false}).eq("id",id);if(r.error)throw r.error;await loadAll();notify(p.name+" eliminado de la lista.")}catch(e){notify("No se pudo eliminar: "+(e.message||e),true)}}
 
+window.openPlayer=openPlayer;
+window.removePlayer=removePlayer;
+
+// Controles de jugadores: se registran inmediatamente y no dependen del resto de la inicialización.
+document.addEventListener("click",function(e){
+  const add=e.target.closest("#addPlayerBtn");
+  if(add){ e.preventDefault(); openPlayer(); return; }
+  const edit=e.target.closest(".edit-player");
+  if(edit){ e.preventDefault(); openPlayer(String(edit.dataset.id)); return; }
+  const del=e.target.closest(".delete-player");
+  if(del){ e.preventDefault(); removePlayer(String(del.dataset.id)); return; }
+},true);
+
 async function login(){const email=$("#email").value,password=$("#password").value;$("#loginError").textContent="";if(!sb){$("#loginError").textContent="La conexión con Firebase no está disponible.";return}const{data,error}=await timeout(sb.auth.signInWithPassword({email,password}),8000);if(error){$("#loginError").textContent=error.message;return}state.user=data.user;$("#loginModal").classList.add("hidden");adminUI();await loadAll()}
 async function logout(){if(sb)await timeout(sb.auth.signOut(),5000).catch(()=>{});state.user=null;$("#adminDrawer").classList.add("hidden");adminUI();await loadAll()}
 async function savePlayer(e){e.preventDefault();if(!sb||!state.user){notify("Necesitás iniciar sesión.",true);return}const id=$("#playerId").value,payload={name:$("#playerName").value.trim(),skill:+$("#playerSkill").value,stamina:+$("#playerStamina").value,position_1:$("#playerPos1").value,position_2:$("#playerPos2").value||null,active:true};loading(true);try{const q=id?sb.from("players").update(payload).eq("id",id):sb.from("players").insert(payload);const{error}=await timeout(q,6000);if(error)throw error;$("#playerModal").classList.add("hidden");await loadAll();notify("Jugador guardado.")}catch(err){notify(err.message,true)}finally{loading(false)}}
