@@ -10,29 +10,6 @@ const fmtDate=iso=>new Intl.DateTimeFormat("es-AR",{weekday:"long",day:"2-digit"
 const notify=(msg,bad=false)=>{const n=$("#notice");if(!n)return;n.textContent=msg;n.classList.remove("hidden");n.style.background=bad?"#fef2f2":"#fff7ed";n.style.color=bad?"#991b1b":"#9a3412";setTimeout(()=>n.classList.add("hidden"),4500)};
 const loading=on=>{const x=$("#loading");if(x)x.classList.toggle("hidden",!on)};
 const timeout=(promise,ms=7000)=>Promise.race([promise,new Promise((_,reject)=>setTimeout(()=>reject(new Error("La conexión está tardando demasiado.")),ms))]);
-document.addEventListener("click",e=>{
-  const tab=e.target.closest(".tab");
-  if(tab){
-    e.preventDefault();
-    e.stopPropagation();
-    document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
-    document.querySelectorAll(".tab-panel").forEach(x=>x.classList.remove("active"));
-    tab.classList.add("active");
-    const panel=document.getElementById("tab-"+tab.dataset.tab);
-    if(panel) panel.classList.add("active");
-    return;
-  }
-},true);
-
-document.addEventListener("mousedown",e=>{
-  const add=e.target.closest("#addPlayerBtn");
-  if(add){e.preventDefault();e.stopPropagation();openPlayer();return}
-  const edit=e.target.closest(".edit-player");
-  if(edit){e.preventDefault();e.stopPropagation();openPlayer(String(edit.dataset.id));return}
-  const del=e.target.closest(".delete-player");
-  if(del){e.preventDefault();e.stopPropagation();removePlayer(String(del.dataset.id));return}
-},true);
-
 function adminUI(){const admin=!!state.user;$$('.admin-only').forEach(x=>x.classList.toggle('hidden',!admin));const l=$("#adminUserLabel");if(l)l.textContent=admin?state.user.email:"No autenticado"}
 function emptyStats(){return state.players.map(p=>({player_id:p.id,pj:0,pg:0,pe:0,pp:0,winrate:0,mental:0}))}
 function placeholderMatch(){return{id:null,match_date:nextThursday(),status:"OPEN",team_a_score:null,team_b_score:null}}
